@@ -3,10 +3,15 @@ import { ref } from 'vue';
 
 const newTask = ref('');
 
+const emit = defineEmits<{
+	addTask: [newTask: string];
+}>();
+
 function handleSubmit(event: Event) {
 	event.preventDefault();
 
 	if (newTask.value.trim()) {
+		emit('addTask', newTask.value);
 		newTask.value = '';
 	} else {
 		alert('Task cannot be empty');
