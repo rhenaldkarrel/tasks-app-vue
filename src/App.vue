@@ -42,14 +42,11 @@ function handleToggleCompleted(id: string) {
 <style scoped>
 main {
 	max-width: 50rem;
-	margin: 0 auto;
+	margin: 4rem auto;
 }
 
 ul {
 	padding: 0;
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
 }
 
 li {

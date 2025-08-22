@@ -13,43 +13,27 @@ defineEmits<{
 </script>
 
 <template>
-	<label class="task-card">
-		<input
-			type="checkbox"
-			v-model="task.completed"
-			class="task-checkbox"
-			@input="$emit('toggleCompleted', task.id)"
-		/>
-		{{ task.name }}
-	</label>
+	<article class="task" :class="{ done: task.completed }">
+		<label>
+			<input
+				type="checkbox"
+				v-model="task.completed"
+				@input="$emit('toggleCompleted', task.id)"
+			/>
+			{{ task.name }}
+		</label>
+	</article>
 </template>
 
 <style scoped>
-.task-checkbox {
-	width: auto;
-}
-
-.task-card {
+.task {
 	display: flex;
 	align-items: center;
-	gap: 1rem;
-	background-color: #323232;
-	border-radius: 0.5rem;
-	padding: 1rem;
-	color: #fff;
-	border: 1px solid red;
-	cursor: pointer;
-	transition: all 0.3s ease;
+	justify-content: space-between;
 }
 
-.task-card:hover {
-	border-color: green;
-}
-
-@media (prefers-color-scheme: light) {
-	.task-card {
-		background-color: #f9f9f9;
-		color: #000;
-	}
+.task.done label {
+	text-decoration: line-through;
+	color: gray;
 }
 </style>
