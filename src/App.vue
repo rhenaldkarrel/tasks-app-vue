@@ -15,6 +15,14 @@ function handleAddTask(newTask: string) {
 		completed: false,
 	});
 }
+
+function handleToggleCompleted(id: string) {
+	const task = tasks.value.find((t) => t.id === id);
+
+	if (task) {
+		task.completed = !task.completed;
+	}
+}
 </script>
 
 <template>
@@ -23,9 +31,9 @@ function handleAddTask(newTask: string) {
 		<TaskForm @add-task="handleAddTask" />
 		<h3>There are {{ tasks.length }} tasks left...</h3>
 
-		<ul>
+		<ul v-if="tasks.length > 0">
 			<li v-for="task in tasks" :key="task.id">
-				<TaskCard :task="task" />
+				<TaskCard :task="task" @toggleCompleted="handleToggleCompleted" />
 			</li>
 		</ul>
 	</main>

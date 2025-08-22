@@ -1,10 +1,3 @@
-<template>
-	<label class="task-card">
-		<input type="checkbox" v-model="task.completed" class="task-checkbox" />
-		{{ task.name }}
-	</label>
-</template>
-
 <script setup lang="ts">
 import { defineProps } from 'vue';
 
@@ -13,7 +6,23 @@ import type { Task } from '../types';
 defineProps<{
 	task: Task;
 }>();
+
+defineEmits<{
+	toggleCompleted: [id: string];
+}>();
 </script>
+
+<template>
+	<label class="task-card">
+		<input
+			type="checkbox"
+			v-model="task.completed"
+			class="task-checkbox"
+			@input="$emit('toggleCompleted', task.id)"
+		/>
+		{{ task.name }}
+	</label>
+</template>
 
 <style scoped>
 .task-checkbox {
