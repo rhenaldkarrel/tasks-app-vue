@@ -23,6 +23,10 @@ function handleToggleCompleted(id: string) {
 		task.completed = !task.completed;
 	}
 }
+
+function handleRemoveTask(id: string) {
+	tasks.value = tasks.value.filter((task) => task.id !== id);
+}
 </script>
 
 <template>
@@ -33,7 +37,11 @@ function handleToggleCompleted(id: string) {
 
 		<ul v-if="tasks.length > 0">
 			<li v-for="task in tasks" :key="task.id">
-				<TaskCard :task="task" @toggleCompleted="handleToggleCompleted" />
+				<TaskCard
+					:task="task"
+					@toggleCompleted="handleToggleCompleted"
+					@removeTask="handleRemoveTask"
+				/>
 			</li>
 		</ul>
 	</main>

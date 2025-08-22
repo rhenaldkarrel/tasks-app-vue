@@ -9,6 +9,7 @@ defineProps<{
 
 defineEmits<{
 	toggleCompleted: [id: string];
+	removeTask: [id: string];
 }>();
 </script>
 
@@ -22,6 +23,9 @@ defineEmits<{
 			/>
 			{{ task.name }}
 		</label>
+		<button @click="$emit('removeTask', task.id)" class="outline">
+			Remove
+		</button>
 	</article>
 </template>
 
