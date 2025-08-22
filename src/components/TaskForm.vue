@@ -20,7 +20,7 @@ function handleSubmit(event: Event) {
 </script>
 
 <template>
-	<form class="task-form" @submit="handleSubmit">
+	<form @submit="handleSubmit">
 		<input type="text" v-model="newTask" placeholder="Add a new todo" />
 		<div class="btn-add-todo-container">
 			<button>Add</button>
@@ -32,9 +32,5 @@ function handleSubmit(event: Event) {
 .btn-add-todo-container {
 	display: flex;
 	justify-content: end;
-}
-
-.task-form > *:where(:not(:last-child)) {
-	margin-bottom: 1rem;
 }
 </style>
