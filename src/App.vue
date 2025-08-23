@@ -33,15 +33,20 @@ function handleRemoveTask(id: string) {
 	<main>
 		<h1>Todo App</h1>
 		<TaskForm @add-task="handleAddTask" />
-		<h3>There are {{ tasks.length }} tasks left...</h3>
+		<h3 v-if="!tasks.length">Add a new task...</h3>
+		<h3 v-else>There are {{ tasks.length }} tasks left...</h3>
 
-		<ul v-if="tasks.length > 0">
-			<li v-for="task in tasks" :key="task.id">
-				<TaskCard
-					:task="task"
-					@toggleCompleted="handleToggleCompleted"
-					@removeTask="handleRemoveTask"
-				/>
+		<ul>
+			<li>
+				<TransitionGroup name="task-list" tag="div" class="task-list">
+					<div v-for="task in tasks" :key="task.id">
+						<TaskCard
+							:task="task"
+							@toggleCompleted="handleToggleCompleted"
+							@removeTask="handleRemoveTask"
+						/>
+					</div>
+				</TransitionGroup>
 			</li>
 		</ul>
 	</main>
@@ -59,5 +64,15 @@ ul {
 
 li {
 	list-style: none;
+}
+
+.task-list-enter-active,
+.task-list-leave-active {
+	transition: all 0.5s ease;
+}
+.task-list-enter-from,
+.task-list-leave-to {
+	opacity: 0;
+	transform: translateX(300px);
 }
 </style>
