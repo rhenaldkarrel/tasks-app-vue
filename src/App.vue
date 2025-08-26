@@ -4,9 +4,21 @@ import { computed, ref } from 'vue';
 import TaskForm from './components/TaskForm.vue';
 import TaskCard from './components/TaskCard.vue';
 
-import type { Task } from './types';
+import type { Task, TaskFilter } from './types';
 
 const tasks = ref<Task[]>([]);
+const filterTask = ref<TaskFilter>('all');
+
+const filteredTasks = computed(() => {
+	switch (filterTask.value) {
+		case 'active':
+			return tasks.value.filter((task) => !task.completed);
+		case 'completed':
+			return tasks.value.filter((task) => task.completed);
+		default:
+			return tasks.value;
+	}
+});
 
 const totalCompleted = computed(() => {
 	return tasks.value.filter((task) => task.completed).length;
@@ -42,10 +54,16 @@ function handleRemoveTask(id: string) {
 			There are {{ totalCompleted }}/{{ tasks.length }} completed tasks.
 		</h3>
 
+		<div v-if="tasks.length" class="filter-container">
+			<button @click="filterTask = 'all'">All</button>
+			<button @click="filterTask = 'active'">Active</button>
+			<button @click="filterTask = 'completed'">Completed</button>
+		</div>
+
 		<ul>
 			<li>
 				<TransitionGroup name="task-list" tag="div" class="task-list">
-					<div v-for="task in tasks" :key="task.id">
+					<div v-for="task in filteredTasks" :key="task.id">
 						<TaskCard
 							:task="task"
 							@toggleCompleted="handleToggleCompleted"
@@ -62,6 +80,7 @@ function handleRemoveTask(id: string) {
 main {
 	max-width: 50rem;
 	margin: 4rem auto;
+	padding: 0 1rem;
 }
 
 ul {
@@ -70,6 +89,12 @@ ul {
 
 li {
 	list-style: none;
+}
+
+.filter-container {
+	display: flex;
+	gap: 0.5rem;
+	margin-bottom: 1rem;
 }
 
 .task-list-enter-active,
