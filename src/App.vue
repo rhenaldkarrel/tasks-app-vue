@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import TaskForm from './components/TaskForm.vue';
 import TaskCard from './components/TaskCard.vue';
@@ -7,6 +7,10 @@ import TaskCard from './components/TaskCard.vue';
 import type { Task } from './types';
 
 const tasks = ref<Task[]>([]);
+
+const totalCompleted = computed(() => {
+	return tasks.value.filter((task) => task.completed).length;
+});
 
 function handleAddTask(newTask: string) {
 	tasks.value.push({
@@ -34,7 +38,9 @@ function handleRemoveTask(id: string) {
 		<h1>Todo App</h1>
 		<TaskForm @add-task="handleAddTask" />
 		<h3 v-if="!tasks.length">Add a new task...</h3>
-		<h3 v-else>There are {{ tasks.length }} tasks left...</h3>
+		<h3 v-else>
+			There are {{ totalCompleted }}/{{ tasks.length }} completed tasks.
+		</h3>
 
 		<ul>
 			<li>
